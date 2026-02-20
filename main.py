@@ -59,6 +59,7 @@ def CalculateTax(Income, Rates, Money):
             break
             
     return TotalTax
+
 print("How much taxable income do you have?")
 income = 0
 IncomeTruth = False
@@ -80,6 +81,8 @@ while ProvinceTruth == False:
 FederalTax = CalculateTax(income, CA_rates, CA_money)
 ProvincialTax = CalculateTax(income, ProvinceRate, ProvinceMoney)
 TotalDue = FederalTax + ProvincialTax
+EffectiveRate = (TotalDue / income) * 100
 print(f"Federal Tax: ${FederalTax:,.2f}")
 print(f"Provincial Tax: ${ProvincialTax:,.2f}")
 print(f"Total Tax: ${TotalDue:,.2f}")
+print(f"Effective Tax Rate: {EffectiveRate:.2f}%")
