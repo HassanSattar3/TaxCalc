@@ -47,7 +47,7 @@ def CalculateTax(Income, Rates, Money):
         Lower = Money[i] 
         Rate = Rates[i] / 100 #we divide by 100 to turn the percentage to a decimal
         
-        if i + 1 < len(Money): #basically we set Upper to the next grade but if the it doesnt exist then we set it it to infinite this helps since in the min now it will always choose income and subtract by income
+        if i + 1 < len(Money): #basically we set Upper to the next grade but if the it doesnt exist then we set it it to infinite this helps since in the min now it will always choose income and subtract by income so we dont need any special code for last loop
             Upper = Money[i+1]
         else:
             Upper = float("inf")
