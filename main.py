@@ -60,7 +60,7 @@ def CalculateTax(Income, Rates, Money):
             
     return TotalTax
 
-
+# MAIN CODE
 print("=" * 40)
 print("        CANADIAN TAX CALCULATOR")
 print("=" * 40)
