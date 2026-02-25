@@ -43,46 +43,62 @@ ProvinceMap = {
 }
 def CalculateTax(Income, Rates, Money):
     TotalTax = 0
-    for i in range(len(Rates)):
-        Lower = Money[i]
-        Rate = Rates[i] / 100
+    for i in range(len(Rates)): #this makes it loop for the length of the list
+        Lower = Money[i] 
+        Rate = Rates[i] / 100 #we divide by 100 to turn the percentage to a decimal
         
-        if i + 1 < len(Money):
+        if i + 1 < len(Money): #basically we set Upper to the next grade but if the it doesnt exist then we set it it to infinite this helps since in the min now it will always choose income and subtract by income
             Upper = Money[i+1]
         else:
             Upper = float("inf")
 
         if Income > Lower:
-            TaxableAmount = min(Income, Upper) - Lower
+            TaxableAmount = min(Income, Upper) - Lower #the min just picks the lower one if its income or upper and then it subtract it by lower this works becuse if income is bigger than upper then we just subtract upper for this one and then in next loop we will calculate next bracket
             TotalTax += TaxableAmount * Rate
         else:
             break
             
     return TotalTax
 
+
+print("=" * 40)
+print("        CANADIAN TAX CALCULATOR")
+print("=" * 40)
 print("How much taxable income do you have?")
 income = 0
 IncomeTruth = False
 while IncomeTruth == False:
-    try:
-        income = int(input())
-        IncomeTruth = True
+    try: #tries to get an int if it does not get an int it will say invalid format
+        income = float(input())
+        if income < 0: #if the value is a negative script user will be prompted again
+            print("Income can't be negative")
+        else:
+            IncomeTruth = True
     except:
         print("invalid format")
 ProvinceTruth = False
 print("What Province do you reside in")
-while ProvinceTruth == False:
-    Province = str(input()).strip().lower()
-    if Province in ProvinceMap:
-        ProvinceRate, ProvinceMoney = ProvinceMap[Province]
+while ProvinceTruth == False: 
+    Province = str(input()).strip().lower() #I tried doing the Province.lower in the if statement but it wasnt working so I put it here I also put strip for good measure
+    if Province in ProvinceMap: #basically checks if province is in provincemap and if it is then it continues otherwise it runs the else
+        ProvinceRate, ProvinceMoney = ProvinceMap[Province] #sets the province rate and Province money using the dictonary 
         ProvinceTruth = True
     else:
         print("Invalid Format")
 FederalTax = CalculateTax(income, CA_rates, CA_money)
 ProvincialTax = CalculateTax(income, ProvinceRate, ProvinceMoney)
 TotalDue = FederalTax + ProvincialTax
-EffectiveRate = (TotalDue / income) * 100
-print(f"Federal Tax: ${FederalTax:,.2f}")
-print(f"Provincial Tax: ${ProvincialTax:,.2f}")
-print(f"Total Tax: ${TotalDue:,.2f}")
-print(f"Effective Tax Rate: {EffectiveRate:.2f}%")
+if income > 0: #I changed it to this since I realized if someone puts 0 as income my script would throw error since it would divide totaldue by 0 which is DNE
+    EffectiveRate = (TotalDue / income) * 100
+else:
+    EffectiveRate = 0
+print("\n" + "=" * 40)
+print("              TAX SUMMARY")
+print("=" * 40)
+print(f"Income:              ${income:,.2f}")
+print(f"Federal Tax:         ${FederalTax:,.2f}")
+print(f"Provincial Tax:      ${ProvincialTax:,.2f}")
+print("-" * 40)
+print(f"Total Tax Owed:      ${TotalDue:,.2f}")
+print(f"Effective Tax Rate:  {EffectiveRate:.2f}%")
+print("=" * 40)
